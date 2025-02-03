@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shan X Cheat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('https://i.postimg.cc/763D0RMJ/IMG-1043.jpg') no-repeat center center/cover;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 60px;
+            border-radius: 20px;
+            color: white;
+            width: 450px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+        }
+
+        input {
+            padding: 12px;
+            margin: 10px;
+            font-size: 18px;
+            text-align: center;
+            border-radius: 5px;
+            border: 2px solid #4CAF50; /* Green border */
+            background-color: #f4f4f4;
+            color: #333;
+            width: 80%;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 15px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF; /* Blue button */
+            color: white;
+            transition: background-color 0.3s;
+            width: 80%;
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker blue */
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #waitingMessage {
+            font-size: 25px;
+            color: yellow;
+            margin-top: 20px;
+        }
+
+        #countdown {
+            font-size: 25px;
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .clickHereLabel {
+            color: #ff6600;
+            font-size: 25px;
+            margin-top: 20px;
+        }
+
+        .hiddenMessage {
+            font-size: 15px;
+            color: gray;
+        }
+
+        #subscribeContainer {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 60px;
+            border-radius: 20px;
+            color: white;
+            width: 500px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Login Container -->
+    <div class="container" id="loginContainer">
+        <h1>SHAN x CHEAT</h1>
+        <h1>⠀</h1>
+        <p>Enter YouTube Video Pin Number</p>
+        <input type="password" id="pin" maxlength="4" placeholder="Enter PIN">
+        <button onclick="checkPin()">Submit</button>
+        <h1>⠀</h1>
+        <h1>YouTube - SHAN x CHEAT</h1>
+    </div>
+
+    <!-- Subscribe & Download Container -->
+    <div class="container hidden" id="subscribeContainer">
+        <p class="clickHereLabel">FREE PANEL LINK</p>
+        <h1>⠀</h1>
+        <button onclick="subscribeAndDownload()">DOWNLODE</button>
+        <div id="waitingMessage" class="hidden">Waiting...</div>
+        <div id="countdown" class="hidden"></div>
+        <p class="hiddenMessage">You will be redirected shortly.</p>
+    </div>
+
+    <script>
+        // Check Pin and proceed
+        function checkPin() {
+            const pin = document.getElementById("pin").value;
+            if (pin === "1234") {
+                document.getElementById("loginContainer").classList.add("hidden");
+                document.getElementById("subscribeContainer").classList.remove("hidden");
+            } else {
+                alert("Incorrect PIN!");
+            }
+        }
+
+        // Handle the download and countdown logic
+        function subscribeAndDownload() {
+            // Show waiting message and start countdown
+            document.getElementById("waitingMessage").classList.remove("hidden");
+            document.getElementById("countdown").classList.remove("hidden");
+
+            let countdownValue = 10;
+            const countdownDisplay = document.getElementById("countdown");
+
+            // Update countdown every second
+            const countdownInterval = setInterval(function() {
+                countdownDisplay.innerText = countdownValue;
+                countdownValue--;
+
+                // Once countdown finishes, trigger download
+                if (countdownValue < 1) {
+                    clearInterval(countdownInterval);
+                    downloadFile();
+                }
+            }, 1000);
+        }
+
+        // Redirect to the download URL
+        function downloadFile() {
+            window.location.href = 'https://download2303.mediafire.com/ias5loh7r1wg74b9z4RXyhBYi0w5zA6fG-u1SQDk_mJ4zVAbhSG6Fb7AWykdiKbfwX1t261fMfL58gCH0yBfLLnXeckNmCXSrjmXWwwUqn002piRGG_39FZNdxa-q0sa8J-MDU_vjMOmQ-dTF9w1UfN7iSRFhqh78paPfM8rBy7cCw/6gw9p2mf1a16t42/SHAN+CHEAT+FREE+PANEL+v2.2.rar';
+        }
+    </script>
+
+</body>
+</html>
